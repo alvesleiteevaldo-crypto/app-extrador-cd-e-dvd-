@@ -1,0 +1,6 @@
+[submodule "upstream/extract_audio_from_video"]
+	path = upstream/extract_audio_from_video
+	url = https://github.com/lucasdksan/extract_audio_from_video.git
+[submodule "upstream/automatic-ripping-machine"]
+	path = upstream/automatic-ripping-machine
+	url = https://github.com/automatic-ripping-machine/automatic-ripping-machine.git
