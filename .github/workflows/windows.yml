@@ -1,0 +1,28 @@
+name: Compilar Windows
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Instalar ferramentas
+        run: python -m pip install pyinstaller yt-dlp imageio-ffmpeg
+      - name: Copiar FFmpeg para distribuição
+        shell: pwsh
+        run: |
+          $binary = python -c "import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())"
+          Copy-Item $binary ffmpeg.exe
+      - name: Compilar app
+        run: pyinstaller --noconfirm --clean --onefile --windowed --name ExtratorDeMidia --add-binary "ffmpeg.exe;." --collect-all yt_dlp app.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ExtratorDeMidia-Windows10-11
+          path: dist/ExtratorDeMidia.exe
